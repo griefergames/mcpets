@@ -13,6 +13,7 @@ import com.google.common.collect.Lists;
 
 import lombok.Getter;
 
+import net.griefergames.mcpets.MCPetsPluginInjector;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -74,6 +75,8 @@ public class MCPets extends JavaPlugin {
     @Getter
     private static final String prefix = "§8[§»";
 
+    private MCPetsPluginInjector pluginInjector;
+
     public static void loadConfigs() {
         ItemsListConfig.getInstance().init();
         PetFoodConfig.getInstance().init();
@@ -115,6 +118,7 @@ public class MCPets extends JavaPlugin {
     @Override
     public void onLoad() {
         instance = this;
+        pluginInjector = new MCPetsPluginInjector(this);
 
         // Reset static flags for PlugMan reload support
         itemsAdderFound = false;
@@ -149,6 +153,7 @@ public class MCPets extends JavaPlugin {
         } catch (final Exception ex) {
             getLog().log(Level.SEVERE, "Flag manager has raised an exception", ex);
         }
+        pluginInjector.onLoad();
     }
 
     @Override
@@ -175,6 +180,8 @@ public class MCPets extends JavaPlugin {
 
             FlagsManager.launchFlags();
         });
+
+        pluginInjector.onEnable();
     }
 
     @Override
@@ -182,6 +189,8 @@ public class MCPets extends JavaPlugin {
         getLog().info("-=-=-=-= MCPets disabled =-=-=-=-");
         getLog().info("          See you soon           ");
         getLog().info("-=-=-=-= -=-=-=-=-=-=-=- =-=-=-=-");
+
+        pluginInjector.onDisable();
 
         // Cancel pending editor conversations before the JAR is unloaded to avoid
         // IllegalStateException (zip file closed) if a listener fires after disable.
