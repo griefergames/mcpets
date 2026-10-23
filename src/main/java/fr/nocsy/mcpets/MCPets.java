@@ -146,6 +146,9 @@ public class MCPets extends JavaPlugin {
             if (GlobalConfig.getInstance().isWorldGuardSupport()) {
                 FlagsManager.init(this);
             }
+            if (Bukkit.getPluginManager().isPluginEnabled("PlotSquared")) {
+                fr.nocsy.mcpets.data.flags.plotsquared.FlagsManager.init(this);
+            }
         } catch (final Exception ex) {
             getLog().log(Level.SEVERE, "Flag manager has raised an exception", ex);
         }
@@ -174,6 +177,7 @@ public class MCPets extends JavaPlugin {
             getLog().info("-=-=-=-= -=-=-=-=-=-=- =-=-=-=-");
 
             FlagsManager.launchFlags();
+            fr.nocsy.mcpets.data.flags.plotsquared.FlagsManager.registerFlags();
         });
     }
 
