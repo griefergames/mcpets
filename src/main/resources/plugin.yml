@@ -19,7 +19,11 @@ softdepend:
   - LuckPerms
   - PlaceholderAPI
   - ItemsAdder
+  - ClusterConnect
 loadbefore: []
+# Prefer ClusterConnect ready before we wire the handoff listener
+loadafter:
+  - ClusterConnect
 
 # Plugin messaging channel "mcpets:sync" is registered in code via Bukkit.getMessenger()
 # (the 'channels' key is not part of the Bukkit plugin descriptor schema)

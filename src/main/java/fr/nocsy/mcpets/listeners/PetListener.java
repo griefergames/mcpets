@@ -207,13 +207,12 @@ public class PetListener implements Listener {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
 
-        Bukkit.getScheduler().runTaskLater(MCPets.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskLaterAsynchronously(MCPets.getInstance(), () -> {
             if (GlobalConfig.getInstance().isDatabaseSupport()) {
                 PlayerData.reloadAll(uuid);
             }
 
-            if (GlobalConfig.getInstance().isVelocityEnabled()
-                    && GlobalConfig.getInstance().isDatabaseSupport()) {
+            if (GlobalConfig.getInstance().isVelocityEnabled() && GlobalConfig.getInstance().isDatabaseSupport()) {
 
                 // When Velocity is enabled the DB is the ONLY source of truth.
                 boolean isLiveSwitch = VelocitySyncManager.isPlayerSwitching(uuid);

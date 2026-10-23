@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
@@ -160,6 +161,17 @@ public class Databases {
         return playerLocks.computeIfAbsent(playerUUID, k -> new Object());
     }
 
+    public static void loadDataAsync(UUID playerUUID) {
+        if (!GlobalConfig.getInstance().isDatabaseSupport())
+            return;
+
+        CompletableFuture.runAsync(() -> loadData(playerUUID))
+                .exceptionally(ex -> {
+                    MCPets.getInstance().getLogger().log(Level.SEVERE, "Failed to load player data for " + playerUUID, ex);
+                    return null;
+                });
+    }
+
     public static boolean loadData(UUID playerUUID) {
         if (!GlobalConfig.getInstance().isDatabaseSupport())
             return false;
@@ -244,6 +256,19 @@ public class Databases {
                         uuid.toString(), names, inventories, data.toString(), lastActivePet);
             }
         }
+    }
+
+    public static void savePlayerDataAsync(UUID playerUUID) {
+        if (!GlobalConfig.getInstance().isDatabaseSupport())
+            return;
+        if (!PlayerData.isRegistered(playerUUID))
+            return;
+
+        CompletableFuture.runAsync(() -> savePlayerData(playerUUID))
+                .exceptionally(ex -> {
+                    MCPets.getInstance().getLogger().log(Level.SEVERE, "Failed to save player data for " + playerUUID, ex);
+                    return null;
+                });
     }
 
     public static void savePlayerData(UUID playerUUID) {

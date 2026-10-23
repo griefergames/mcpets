@@ -61,6 +61,8 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.44")
 
     compileOnly(ggcloud.paper.api)
+    compileOnly(ggcloud.cluster.connect)
+    compileOnly(ggcloud.hazelcast)
 
     compileOnly("io.lumine:Mythic-Dist:5.12.1")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.15")
