@@ -1,0 +1,66 @@
+# Sample pet – copy to plugins/MCPets/Pets/example_pet.yml
+# Replace MythicMob with a real MythicMobs mob id from your setup.
+
+Id: example_pet
+MythicMob: ExamplePetMob
+Permission: mcpets.example
+Distance: 6
+SpawnRange: 3
+ComingBackRange: 3
+Mountable: true
+MountType: walking
+# MountPermission: mcpets.example.mount
+DespawnOnDismount: false
+AutoRide: false
+Invulnerable: false
+InventorySize: 9
+UseDefaultMythicMobsName: false
+# DespawnSkill: example_despawn
+# SpawnSkill: example_spawn
+
+Icon:
+  Material: BONE
+  Name: "§6Example Pet"
+  CustomModelData: 0
+  Description:
+    - "§7Sample pet for MCPets"
+    - "§eClick to summon"
+
+Signals:
+  Values:
+    - sit
+    - follow
+  Item:
+    GetFromMenu: true
+    Material: STICK
+    Name: "§eSignal Stick"
+    Description:
+      - "§7Right-click: order"
+      - "§7Left-click: cycle"
+
+# Optional living-pet levels (experience / stats)
+Levels:
+  lvl1:
+    Name: "§aLevel 1"
+    ExperienceThreshold: 0
+    MaxHealth: 20.0
+    Regeneration: 0.1
+    ResistanceModifier: 1.0
+    DamageModifier: 1.0
+    Power: 1.0
+    InventoryExtension: 0
+    Cooldowns:
+      Respawn: 0
+      Revoke: 0
+  lvl2:
+    Name: "§eLevel 2"
+    ExperienceThreshold: 100
+    MaxHealth: 30.0
+    Regeneration: 0.15
+    ResistanceModifier: 1.1
+    DamageModifier: 1.1
+    Power: 1.1
+    InventoryExtension: 9
+    Cooldowns:
+      Respawn: 5
+      Revoke: 0

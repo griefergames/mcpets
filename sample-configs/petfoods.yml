@@ -1,0 +1,30 @@
+# Pet food definitions (sample)
+# Copy to: plugins/MCPets/petfoods.yml
+#
+# Types: health, tame, exp, evolution, unlock, buff_damage, buff_resistance, buff_power
+# Operators: ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION (see PetMath)
+
+healing_apple:
+  ItemId: APPLE
+  Type: health
+  Power: 4.0
+  Operator: ADDITION
+  Cooldown: 2
+  Pets: []
+
+taming_treat:
+  ItemId: COOKIE
+  Type: tame
+  Power: 0.15
+  Operator: ADDITION
+  Cooldown: 1
+  Pets: []
+
+exp_carrot:
+  ItemId: GOLDEN_CARROT
+  Type: exp
+  Power: 25.0
+  Operator: ADDITION
+  Cooldown: 5
+  Pets:
+    - example_pet

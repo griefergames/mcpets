@@ -1,0 +1,6 @@
+# Words blocked when renaming pets
+# Copy to: plugins/MCPets/blacklist.yml
+
+Blacklist:
+  - badword
+  - example

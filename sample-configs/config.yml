@@ -1,0 +1,76 @@
+# MCPets main config (sample for GG)
+# Copy to: plugins/MCPets/config.yml
+
+Prefix: "§8[§6MCPets§8] » "
+DefaultName: "§9Pet of %player%"
+OverrideDefaultName: true
+EnableClickBackToMenu: true
+UseDefaultMythicMobsNames: false
+RightClickToOpenMenu: true
+LeftClickToOpenMenu: true
+DisableInventoryWhileHoldingSignalStick: true
+DismountOnDamaged: true
+DismountOnDamagedExcludePlayers: false
+SpawnPetOnReconnect: true
+SneakMode: false
+Nameable: true
+Mountable: true
+DistanceTeleport: 30
+MaxNameLength: 16
+# -1 = adaptive inventory size
+InventorySize: -1
+PercentHealthOnRespawn: 0.2
+ActivateBackMenuIcon: true
+# Auto-save interval in seconds (0 = disabled)
+AutoSaveDelay: 3600
+
+GlobalRespawnCooldown: false
+DefaultRespawnCooldown: 0
+AutoRespawn: false
+
+Experience:
+  BarSize: 40
+  Symbol: "|"
+  ColorDone: "§a"
+  ColorLeft: "§f"
+
+Taming:
+  AnnouncementType: CHAT
+  BarSize: 40
+  Symbol: "|"
+  ColorDone: "§a"
+  ColorLeft: "§f"
+
+# Worlds where pets are completely disabled
+BlackListedWorlds: []
+
+FastMount: false
+DisableFastMountWhileHoldingSignalStick: false
+SpawnPetAfterServerRestart: true
+MaxActivePets: 1
+MaxActiveMounts: 1
+
+# --- Persistence (player data: names, inventories, stats) ---
+# Active-pet cross-server handoff on GG uses ClusterConnect, not this MySQL table.
+DisableMySQL: true
+MySQL:
+  Prefix: ""
+  User: user
+  Password: password
+  Host: localhost
+  Port: "3306"
+  Database: mcpets_db
+
+# --- Upstream Velocity sync (NOT used on GG) ---
+# Keep false. GG uses ClusterConnect IMap "mcpets:active-pet" instead.
+Velocity:
+  Enabled: false
+  SwitchWindow: 60
+
+# --- PlotSquared (GG) ---
+# Flags registered by this plugin when PlotSquared is present:
+#   pets        (default true)  – pets allowed on the plot
+#   pet-damage  (default true)  – players can damage pets on the plot
+# Examples:
+#   /plot flag set pets false
+#   /plot flag set pet-damage false

@@ -1,0 +1,11 @@
+# Sample category – copy to plugins/MCPets/Categories/example.yml
+# Icon is optional; MCPets fills a default if missing.
+
+Id: example
+Type: PET
+DisplayName: "§0☀ §6Example Pets §0☀"
+IconName: "§6Example"
+DefaultCategory: false
+Pets:
+  - example_pet
+ExcludedCategories: []
