@@ -63,6 +63,8 @@ dependencies {
     compileOnly(ggcloud.paper.api)
     compileOnly(ggcloud.cluster.connect)
     compileOnly(ggcloud.hazelcast)
+    compileOnly(ggcloud.plotsquared.core)
+    compileOnly(ggcloud.plotsquared.bukkit)
 
     compileOnly("io.lumine:Mythic-Dist:5.12.1")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.15")

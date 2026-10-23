@@ -3,7 +3,12 @@ package net.griefergames.mcpets.active;
 import fr.nocsy.mcpets.data.Pet;
 import fr.nocsy.mcpets.data.PetDespawnReason;
 import fr.nocsy.mcpets.data.PetSkin;
+import fr.nocsy.mcpets.events.PetDamagedByEntityEvent;
 import fr.nocsy.mcpets.events.PetDespawnEvent;
+import fr.nocsy.mcpets.events.PetSpawnEvent;
+import io.lumine.mythic.core.mobs.ActiveMob;
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 
 import java.util.List;
 import java.util.Map;
@@ -56,5 +61,25 @@ public final class PetAccess {
 
     public static PetDespawnReason despawnReason(PetDespawnEvent event) {
         return event.getReason();
+    }
+
+    public static Pet spawnPet(PetSpawnEvent event) {
+        return event.getPet();
+    }
+
+    public static Location spawnWhere(PetSpawnEvent event) {
+        return event.getWhere();
+    }
+
+    public static Pet damagedPet(PetDamagedByEntityEvent event) {
+        return event.getPet();
+    }
+
+    public static Entity damager(PetDamagedByEntityEvent event) {
+        return event.getDamager();
+    }
+
+    public static ActiveMob activeMob(Pet pet) {
+        return pet.getActiveMob();
     }
 }
