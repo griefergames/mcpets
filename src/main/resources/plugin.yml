@@ -43,7 +43,7 @@ commands:
 
 permissions:
   mcpets.use:
-    default: true
+    default: op
   mcpets.admin:
     default: op
   mcpets.color:
