@@ -4,6 +4,7 @@ import fr.nocsy.mcpets.MCPets
 import net.griefergames.cluster.primitive.cluster.ClusterManager
 import net.griefergames.mcpets.active.ClusterActivePetListener
 import net.griefergames.mcpets.active.ClusterActivePetStore
+import net.griefergames.mcpets.plotsquared.PlotSquaredPetMetadataListener
 import net.griefergames.mcpets.plotsquared.PlotSquaredPets
 import net.griefergames.mcpets.plotsquared.PlotSquaredPetsListener
 import org.bukkit.Bukkit
@@ -15,6 +16,7 @@ class MCPetsPluginInjector(
 
     private var activePetListener: ClusterActivePetListener? = null
     private var plotSquaredPetsListener: PlotSquaredPetsListener? = null
+    private var plotSquaredPetMetadataListener: PlotSquaredPetMetadataListener? = null
 
     fun onLoad() {
         if (Bukkit.getPluginManager().getPlugin("PlotSquared") != null) {
@@ -34,6 +36,9 @@ class MCPetsPluginInjector(
     }
 
     fun onDisable() {
+        plotSquaredPetMetadataListener?.stop()
+        plotSquaredPetMetadataListener = null
+
         plotSquaredPetsListener?.stop()
         plotSquaredPetsListener = null
 
@@ -80,6 +85,14 @@ class MCPetsPluginInjector(
         } catch (throwable: Throwable) {
             plotSquaredPetsListener = null
             plugin.logger.warning("[MCPets] PlotSquared pets enforcement unavailable: ${throwable.message}")
+        }
+        try {
+            val metadataListener = PlotSquaredPetMetadataListener(plugin)
+            metadataListener.start()
+            plotSquaredPetMetadataListener = metadataListener
+        } catch (throwable: Throwable) {
+            plotSquaredPetMetadataListener = null
+            plugin.logger.warning("[MCPets] PlotSquared pet road metadata unavailable: ${throwable.message}")
         }
     }
 }
