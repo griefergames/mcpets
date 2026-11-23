@@ -6,7 +6,6 @@ import fr.nocsy.mcpets.data.PetSkin;
 import fr.nocsy.mcpets.events.PetDamagedByEntityEvent;
 import fr.nocsy.mcpets.events.PetDespawnEvent;
 import fr.nocsy.mcpets.events.PetSpawnEvent;
-import fr.nocsy.mcpets.events.PetSpawnedEvent;
 import io.lumine.mythic.core.mobs.ActiveMob;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -72,10 +71,6 @@ public final class PetAccess {
         return event.getWhere();
     }
 
-    public static Pet spawnedPet(PetSpawnedEvent event) {
-        return event.getPet();
-    }
-
     public static Pet damagedPet(PetDamagedByEntityEvent event) {
         return event.getPet();
     }
@@ -86,14 +81,5 @@ public final class PetAccess {
 
     public static ActiveMob activeMob(Pet pet) {
         return pet.getActiveMob();
-    }
-
-    /** Bukkit entity of the pet's active MythicMob, or null if not spawned. */
-    public static Entity entity(Pet pet) {
-        ActiveMob mob = pet.getActiveMob();
-        if (mob == null || mob.getEntity() == null) {
-            return null;
-        }
-        return mob.getEntity().getBukkitEntity();
     }
 }

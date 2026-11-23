@@ -1,6 +1,7 @@
 package net.griefergames.mcpets.plotsquared
 
 import fr.nocsy.mcpets.MCPets
+import fr.nocsy.mcpets.data.Pet
 import fr.nocsy.mcpets.events.PetSpawnedEvent
 import fr.nocsy.mcpets.utils.debug.Debugger
 import net.griefergames.mcpets.active.PetAccess
@@ -38,8 +39,8 @@ class PlotSquaredPetMetadataListener(
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     fun onPetSpawned(event: PetSpawnedEvent) {
-        val pet = PetAccess.spawnedPet(event)
-        val entity = PetAccess.entity(pet) ?: return
+        val pet = petOf(event)
+        val entity = entityOf(pet) ?: return
         applyRoadMetadata(entity)
         Debugger.send(
             "§7Applied PlotSquared road metadata to pet §6${PetAccess.id(pet)}§7 " +
@@ -54,9 +55,24 @@ class PlotSquaredPetMetadataListener(
         entity.setMetadata(META_KEEP, FixedMetadataValue(plugin, true))
     }
 
+    /**
+     * [PetSpawnedEvent.getPet] is Lombok-generated; Kotlin compiles before APT
+     * in this module, so call it reflectively instead of extending PetAccess.
+     */
+    private fun petOf(event: PetSpawnedEvent): Pet =
+        GET_PET.invoke(event) as Pet
+
+    private fun entityOf(pet: Pet): Entity? {
+        val mob = PetAccess.activeMob(pet) ?: return null
+        val abstractEntity = mob.entity ?: return null
+        return abstractEntity.bukkitEntity
+    }
+
     companion object {
         const val META_EVERYWHERE = "everywhere"
         const val META_PLOTSQUARED_IGNORE = "plotsquared:ignore"
         const val META_KEEP = "keep"
+
+        private val GET_PET = PetSpawnedEvent::class.java.getMethod("getPet")
     }
 }
