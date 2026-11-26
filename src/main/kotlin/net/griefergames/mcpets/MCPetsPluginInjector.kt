@@ -1,6 +1,10 @@
 package net.griefergames.mcpets
 
 import fr.nocsy.mcpets.MCPets
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.asCoroutineDispatcher
 import net.griefergames.cluster.primitive.cluster.ClusterManager
 import net.griefergames.mcpets.active.ClusterActivePetListener
 import net.griefergames.mcpets.active.ClusterActivePetStore
@@ -9,6 +13,10 @@ import net.griefergames.mcpets.plotsquared.PlotSquaredPets
 import net.griefergames.mcpets.plotsquared.PlotSquaredPetsListener
 import org.bukkit.Bukkit
 import org.bukkit.event.HandlerList
+import java.util.concurrent.ForkJoinPool
+import java.util.logging.Level
+
+lateinit var mcPetsScope: CoroutineScope
 
 class MCPetsPluginInjector(
     private val plugin: MCPets
@@ -19,6 +27,10 @@ class MCPetsPluginInjector(
     private var plotSquaredPetMetadataListener: PlotSquaredPetMetadataListener? = null
 
     fun onLoad() {
+        val dis = ForkJoinPool().asCoroutineDispatcher()
+        mcPetsScope = CoroutineScope(dis + CoroutineExceptionHandler { context, throwable ->
+            plugin.logger.log(Level.SEVERE, "§cError in Pet-Context $context", throwable)
+        } + SupervisorJob())
         if (Bukkit.getPluginManager().getPlugin("PlotSquared") != null) {
             try {
                 PlotSquaredPets.registerFlags()

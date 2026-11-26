@@ -1,5 +1,7 @@
 plugins {
     kotlin("jvm") version "2.3.0"
+    kotlin("plugin.lombok") version "2.3.0"
+    id("io.freefair.lombok") version "9.0.0"
     id("net.linguica.maven-settings") version "0.5" apply false
 }
 if (!providers.environmentVariable("CLOUD_AUTOUPDATE_BUILD").isPresent) {
@@ -52,19 +54,35 @@ repositories {
     }
 }
 
+val plotsquaredRaw by configurations.creating { isTransitive = false }
+dependencies {
+    plotsquaredRaw(ggcloud.plotsquared.core)
+    plotsquaredRaw(ggcloud.plotsquared.bukkit)
+}
+val strippedPlotSquared by tasks.registering(Jar::class) {
+    archiveFileName.set("distributedplotsquared-stripped.jar")
+    destinationDirectory.set(layout.buildDirectory.dir("stripped"))
+    from({ plotsquaredRaw.map { zipTree(it) } }) {
+        exclude("net/kyori/**")
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 dependencies {
     compileOnly(ggcloud.kotlin.stdlib)
     compileOnly(ggcloud.kotlin.coroutines.core)
     compileOnly(ggcloud.kotlin.coroutines.jdk8)
 
-    compileOnly("org.projectlombok:lombok:1.18.44")
-    annotationProcessor("org.projectlombok:lombok:1.18.44")
-
     compileOnly(ggcloud.paper.api)
     compileOnly(ggcloud.cluster.connect)
     compileOnly(ggcloud.hazelcast)
-    compileOnly(ggcloud.plotsquared.core)
-    compileOnly(ggcloud.plotsquared.bukkit)
+    compileOnly(files(strippedPlotSquared))
+
+    compileOnly(ggcloud.singularity.ui)
+    compileOnly(ggcloud.singularity.i18n.bukkit)
+
+    compileOnly("org.projectlombok:lombok:1.18.44")
+    annotationProcessor("org.projectlombok:lombok:1.18.44")
 
     compileOnly("io.lumine:Mythic-Dist:5.12.1")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.15")

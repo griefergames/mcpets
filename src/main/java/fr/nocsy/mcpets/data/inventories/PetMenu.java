@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import lombok.Getter;
-
+import net.griefergames.mcpets.ui.UIAccessor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -34,7 +34,10 @@ public class PetMenu {
         PlayerData.get(p.getUniqueId());
         owner = p.getUniqueId();
 
-        final List<Pet> availablePets = Pet.getAvailablePets(p);
+        // @GrieferGames Start -->
+        //final List<Pet> availablePets = Pet.getAvailablePets(p);
+        final List<Pet> availablePets = new ArrayList<>();
+        // @GrieferGames End <--
 
         PaginationConfig config = MenuPaginationHelper.calculatePagination(page, availablePets.size());
         
@@ -61,11 +64,15 @@ public class PetMenu {
     }
 
     public void open(final Player p) {
-        if (p.getUniqueId().equals(owner) && !Category.getCategories().isEmpty()) {
-            CategoriesMenu.open(p);
-            return;
-        }
-        p.openInventory(inventory);
+        // @GrieferGames Start -->
+        // Use GrieferGames Menu instead of the default inventory to open the menu
+        UIAccessor.INSTANCE.openPetsMenu(p);
+//        if (p.getUniqueId().equals(owner) && !Category.getCategories().isEmpty()) {
+//            CategoriesMenu.open(p);
+//            return;
+//        }
+//        p.openInventory(inventory);
+        // @GrieferGames End <--
     }
 
 }
